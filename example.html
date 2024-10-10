@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVNIT Weather Dashboard</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            width: 100%;
+        }
+        .dashboard {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+        }
+        .left-column, .right-column {
+            padding: 20px;
+            color: white;
+            overflow-y: auto;
+        }
+        .left-column {
+            width: 30%;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        .right-column {
+            width: 70%;
+        }
+        .logo-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        h1, h2 {
+            margin: 0 0 20px 0;
+        }
+        .weather-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .weather-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .weather-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .forecast {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .forecast-day {
+            text-align: center;
+            width: 14%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .forecast-icon {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .highlight-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .highlight-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="left-column">
+            <div class="logo-title">
+                <div class="logo"></div>
+                <img src="svnit.png" alt="SVNIT Logo" style="width: 75px; height: 75px; border-radius: 20%; margin-right: 10px;">
+                <h1>SVNIT Weather</h1>
+            </div>
+            <div class="weather-icon" id="weather-icon">🌤️</div>
+            <div id="weather-description" style="text-align: center; margin-bottom: 20px;">Loading...</div>
+            <div id="date-time" style="text-align: center; margin-bottom: 20px;"></div>
+            
+            <div class="weather-card">
+                <div>Temperature</div>
+                <div class="weather-value"><span id="current-temp">--</span>°C</div>
+            </div>
+            <div class="weather-card">
+                <div>Humidity</div>
+                <div class="weather-value"><span id="humidity">--</span>%</div>
+            </div>
+            <div class="weather-card">
+                <div>Feels Like</div>
+                <div class="weather-value"><span id="feels-like">--</span>°C</div>
+            </div>
+        </div>
+        <div class="right-column">
+            <h2>Weekly Forecast</h2>
+            <div class="forecast" id="forecast">
+                <!-- Forecast will be populated by JavaScript -->
+            </div>
+            <h2>Today's Highlights</h2>
+            <div class="highlights">
+                <div class="highlight-card">
+                    <div>UV Index</div>
+                    <div class="highlight-value" id="uv-index">--</div>
+                </div>
+                <div class="highlight-card">
+                    <div>Wind Status</div>
+                    <div class="highlight-value"><span id="wind-speed">--</span> km/h</div>
+                    <div id="wind-direction">--</div>
+                </div>
+                <div class="highlight-card">
+                    <div>Sunrise & Sunset</div>
+                    <div id="sunrise">--:-- AM</div>
+                    <div id="sunset">--:-- PM</div>
+                </div>
+                <div class="highlight-card">
+                    <div>Visibility</div>
+                    <div class="highlight-value"><span id="visibility">--</span> km</div>
+                    <div id="visibility-status">Average</div>
+                </div>
+                <div class="highlight-card">
+                    <div>Air Quality</div>
+                    <div class="highlight-value" id="air-quality">--</div>
+                    <div id="air-quality-status">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('date-time').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        function getRandomTemp(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        function updateWeatherData() {
+            // Placeholder data - replace with actual API calls
+            const temp = getRandomTemp(25, 35);
+            document.getElementById('current-temp').textContent = temp;
+            document.getElementById('feels-like').textContent = getRandomTemp(temp - 2, temp + 2);
+            document.getElementById('weather-description').textContent = 'Partly Cloudy';
+            document.getElementById('humidity').textContent = getRandomTemp(30, 70);
+            document.getElementById('uv-index').textContent = getRandomTemp(0, 11);
+            document.getElementById('wind-speed').textContent = getRandomTemp(0, 20);
+            document.getElementById('wind-direction').textContent = 'WSW';
+            document.getElementById('visibility').textContent = (Math.random() * 10).toFixed(1);
+            document.getElementById('air-quality').textContent = getRandomTemp(0, 500);
+
+            document.getElementById('sunrise').textContent = '6:35 AM';
+            document.getElementById('sunset').textContent = '5:42 PM';
+
+            const forecastContainer = document.getElementById('forecast');
+            forecastContainer.innerHTML = '';
+            const days = ['Today', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const icons = ['☀️', '🌤️', '☁️', '🌧️', '⛈️', '❄️'];
+            for (let i = 0; i < 7; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'forecast-day';
+                dayElement.innerHTML = `
+                    <div>${days[i]}</div>
+                    <div class="forecast-icon">${icons[Math.floor(Math.random() * icons.length)]}</div>
+                    <div>${getRandomTemp(20, 35)}°C</div>
+                `;
+                forecastContainer.appendChild(dayElement);
+            }
+        }
+
+        // Initial calls
+        updateDateTime();
+        updateWeatherData();
+
+        // Update date and time every minute
+        setInterval(updateDateTime, 60000);
+
+        // Update weather data every 10 minutes
+        setInterval(updateWeatherData, 600000);
+
+        // TODO: Implement live weather data fetching
+        // Replace the placeholder data in updateWeatherData() with API calls to get real-time data for SVNIT, Surat
+        // You'll need to sign up for a weather API service and use their endpoints to fetch live data
+        // Remember to handle API keys securely and respect rate limits
+    </script>
+</body>
+</html>
